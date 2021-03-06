@@ -13,10 +13,13 @@ public class Player : MonoBehaviour
     private float _jumpHeight = 15.0f;
     private float _yVelocity;
     private bool _canDoubleJump = false;
+    private int _coins = 0;
+    private UIManager _uiManager;
 
     void Start()
     {
         _controller = GetComponent<CharacterController>();
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
     }
 
     void Update()
@@ -49,5 +52,11 @@ public class Player : MonoBehaviour
 
         velocity.y = _yVelocity;
         _controller.Move(velocity * Time.deltaTime);
+    }
+
+    public void AddCoins(int coins = 1)
+    {
+        _coins += coins;
+        _uiManager.UpdateCoinDisplay(_coins);
     }
 }
