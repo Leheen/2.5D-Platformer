@@ -54,8 +54,11 @@ public class Player : MonoBehaviour
             _yVelocity -= _gravity;
         }
 
-        velocity.y = _yVelocity;
-        _controller.Move(velocity * Time.deltaTime);
+        if (_controller.enabled)
+        {
+            velocity.y = _yVelocity;
+            _controller.Move(velocity * Time.deltaTime);
+        }
     }
 
     public void AddCoins(int coins = 1)
@@ -67,6 +70,7 @@ public class Player : MonoBehaviour
     public void Damage(int lives = 1)
     {
         _lives -= lives;
+        _yVelocity = 0;
         _uiManager.UpdateLivesDisplay(_lives);
 
         if (_lives < 1)
