@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -15,11 +16,14 @@ public class Player : MonoBehaviour
     private bool _canDoubleJump = false;
     private int _coins = 0;
     private UIManager _uiManager;
+    private int _lives = 3;
 
     void Start()
     {
         _controller = GetComponent<CharacterController>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+
+        _uiManager.UpdateLivesDisplay(_lives);
     }
 
     void Update()
@@ -58,5 +62,16 @@ public class Player : MonoBehaviour
     {
         _coins += coins;
         _uiManager.UpdateCoinDisplay(_coins);
+    }
+
+    public void Damage(int lives = 1)
+    {
+        _lives -= lives;
+        _uiManager.UpdateLivesDisplay(_lives);
+
+        if (_lives < 1)
+        {
+            SceneManager.LoadScene(0);
+        }
     }
 }
